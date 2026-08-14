@@ -766,7 +766,7 @@ function mountLayout() {
     <section id="menuScreen" class="menu-screen">
       <div class="menu-screen__backdrop"></div>
       <div class="menu-screen__card">
-        <img class="menu-screen__logo" src="/WiziTD.png" alt="WiziTD" />
+        <img class="menu-screen__logo" src="./WiziTD.png" alt="WiziTD" />
         <div class="menu-screen__actions">
           <button id="menuStartBtn" type="button">Commencer</button>
           <button id="menuContinueBtn" type="button">Continuer</button>
@@ -929,7 +929,7 @@ async function boot() {
   let blueprintSource = "fallback";
   let missionSource = "fallback";
   try {
-    const markdown = await docLoader.loadFromPublicPath("/DOCUMENTATION_JEU_FR.md");
+    const markdown = await docLoader.loadFromPublicPath("./DOCUMENTATION_JEU_FR.md");
     const parsedDoc = docParser.parse(markdown);
 
     const ingestionResult = docIngestion.ingest(parsedDoc, registry);

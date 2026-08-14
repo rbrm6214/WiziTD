@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:pages": "vite build && powershell -NoProfile -Command \"Copy-Item 'public/WiziTD.png' 'docs/WiziTD.png' -Force; Copy-Item 'public/DOCUMENTATION_JEU_FR.md' 'docs/DOCUMENTATION_JEU_FR.md' -Force\"",
     "preview": "vite preview",
     "test": "vitest run"
   },
