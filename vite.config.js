@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 
-// Base relative to support GitHub Pages project URLs like /<repo>/.
+// Explicit project base for GitHub Pages repository deployment.
 export default defineConfig({
-  base: "./",
+  base: "/WiziTD/",
   build: {
     outDir: "docs",
     emptyOutDir: true,
