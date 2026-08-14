@@ -1,0 +1,23 @@
+{
+  "name": "wizitd",
+  "version": "1.0.0",
+  "description": "WiziTD - Sprint 1 MJS foundation",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "papaparse": "^5.5.4",
+    "vite": "^8.2.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
+  }
+}
