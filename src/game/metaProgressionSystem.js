@@ -21,7 +21,7 @@ const DEFAULT_KNOWLEDGE_UNLOCKED = {
 };
 
 const DEFAULT_META = {
-  playerLevel: 1,
+  playerLevel: 0,
   playerXp: 0,
   sagessePoints: 0,
   knowledgeLevels: DEFAULT_KNOWLEDGE_LEVELS,
@@ -250,7 +250,7 @@ export class MetaProgressionSystem {
   }
 
   getPlayerXpProgress() {
-    const currentLevel = Math.max(1, Math.floor(this.state.playerLevel ?? 1));
+    const currentLevel = Math.max(0, Math.floor(this.state.playerLevel ?? 0));
     const currentXp = Math.max(0, Math.floor(this.state.playerXp ?? 0));
     const nextLevelXp = this._xpForLevel(currentLevel);
     const ratio = nextLevelXp > 0 ? Math.max(0, Math.min(1, currentXp / nextLevelXp)) : 0;
@@ -264,7 +264,7 @@ export class MetaProgressionSystem {
   }
 
   applyRunResult({ won, wave, kills, score }) {
-    const previousLevel = Math.max(1, Math.floor(this.state.playerLevel ?? 1));
+    const previousLevel = Math.max(0, Math.floor(this.state.playerLevel ?? 0));
     this.state.runs += 1;
     if (won) {
       this.state.wins += 1;

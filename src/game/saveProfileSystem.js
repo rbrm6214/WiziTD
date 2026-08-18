@@ -91,7 +91,7 @@ function createDefaultProfileState({ name, difficulty = "medium", gameMode = "st
       totalKills: 0,
       totalRuns: 0,
       totalXp: 0,
-      playerLevel: 1,
+      playerLevel: 0,
       sagesseDisponible: 0,
       sagesseDepensee: 0,
       sagesseTotaleGagnee: 0,
@@ -138,7 +138,7 @@ function migrateProfile(raw) {
     totalKills: safeInt(mergedStats.totalKills),
     totalRuns: safeInt(mergedStats.totalRuns),
     totalXp: safeInt(mergedStats.totalXp),
-    playerLevel: Math.max(1, safeInt(mergedStats.playerLevel, 1)),
+    playerLevel: Math.max(0, safeInt(mergedStats.playerLevel, 0)),
     sagesseDisponible: safeInt(mergedStats.sagesseDisponible ?? mergedStats.sagessePoints),
     sagesseDepensee: safeInt(mergedStats.sagesseDepensee),
     sagesseTotaleGagnee: safeInt(

@@ -1043,8 +1043,7 @@ async function boot() {
   let knowledgePanelStateKey = "";
 
   const syncMetaSnapshot = () => {
-    const freshMeta = metaSystem.load();
-    Object.assign(meta, freshMeta);
+    Object.assign(meta, JSON.parse(JSON.stringify(metaSystem.state)));
   };
 
   const applyMetaState = (metaState) => {
@@ -1238,6 +1237,10 @@ async function boot() {
   };
 
   const downloadExportPayload = (profileId) => {
+    if (activeProfileId && profileId === activeProfileId) {
+      saveActiveProfileSnapshot();
+    }
+
     const profile = saveProfileSystem.getById(profileId);
     if (!profile) {
       return;
@@ -1516,6 +1519,15 @@ async function boot() {
     sessionLastTimestamp = performance.now();
     metaSystem.state = {
       ...metaSystem.state,
+      playerLevel: 0,
+      playerXp: 0,
+      sagessePoints: 0,
+      runs: 0,
+      wins: 0,
+      totalKills: 0,
+      bestWave: 0,
+      highestWaveEver: 0,
+      extremeUnlocked: false,
       knowledgeLevels: {
         economy: 0,
         offense: 0,
@@ -1903,6 +1915,18 @@ async function boot() {
     return Math.max(1, Math.floor(baseCost * (runBonuses.bonusTowerCostMul ?? 1) * reduceMul));
   };
 
+  const isPackArchitectTower = (towerId) => ["ricochet", "machinegun", "aura"].includes(String(towerId ?? "").toLowerCase());
+
+  const isTowerUnlockedByKnowledge = (towerId) => {
+    if (!TOWER_BLUEPRINTS[towerId]) {
+      return false;
+    }
+    if (!isPackArchitectTower(towerId)) {
+      return true;
+    }
+    return !!runBonuses.packArchitectUnlocked;
+  };
+
   const getKnowledgeDefinitions = () => ({
     economy: { label: "economy", cost: 1, maxLevel: Number.POSITIVE_INFINITY, describe: () => "Ajoute de l'or au debut du prochain run." },
     offense: { label: "offense", cost: 1, maxLevel: Number.POSITIVE_INFINITY, describe: () => "Augmente les degats de toutes les tours." },
@@ -2109,6 +2133,7 @@ async function boot() {
 
     syncMetaSnapshot();
     applyRunBonusesToState(previousBonuses);
+    saveActiveProfileSnapshot();
     if (key === "shop") {
       repriceShopInventory();
       ensureShopInventoryForUnlockedRows();
@@ -3995,6 +4020,18 @@ async function boot() {
     ];
 
     for (const { button, towerId, cost } of towerButtons) {
+      const towerUnlocked = isTowerUnlockedByKnowledge(towerId);
+      if (!towerUnlocked) {
+        button.style.display = "none";
+        button.classList.remove("active", "unavailable");
+        button.setAttribute("aria-disabled", "true");
+        if (selectedTowerType === towerId) {
+          selectedTowerType = null;
+        }
+        continue;
+      }
+
+      button.style.removeProperty("display");
       const isActive = selectedTowerType === towerId;
       const affordable = gold >= cost;
       const towerColor = TOWER_BLUEPRINTS[towerId]?.color ?? "#4ec9b0";
@@ -4842,6 +4879,11 @@ async function boot() {
   });
   const onPickTower = (towerId) => {
     if (!TOWER_BLUEPRINTS[towerId]) {
+      return;
+    }
+    if (!isTowerUnlockedByKnowledge(towerId)) {
+      buildMessage = "Cette tour est verrouillée: débloque pack architect";
+      applyControlsUi();
       return;
     }
 
