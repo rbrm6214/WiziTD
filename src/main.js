@@ -825,10 +825,10 @@ function mountLayout() {
         </section>
 
         <section class="side-block">
-          <h3>Objets / Inventaire</h3>
+          <h3>Objets / Compétences</h3>
           <div class="btn-group">
             <button id="wisdomBtn" type="button">Sagesse</button>
-            <button id="inventoryBtn" type="button">Objet / Inventaire</button>
+            <button id="inventoryBtn" type="button">Inventaire</button>
             <button id="craftBtn" type="button">Boutique</button>
           </div>
         </section>
@@ -3970,7 +3970,7 @@ async function boot() {
     ui.wisdomBtn.textContent = `Sagesse: ${meta.sagessePoints}`;
     ui.craftBtn.textContent = `Boutique`;
     ui.craftBtn.disabled = !isShopUnlocked();
-    ui.inventoryBtn.textContent = `Objet / Inventaire [${stash.length}]`;
+    ui.inventoryBtn.textContent = `Inventaire [${stash.length}]`;
     const mapLockCost = getMapLockCost(selectedDifficulty);
     ui.lockMapBtn.textContent = `${mapLocked ? "Map verrouillée" : "Verrouiller map"} (${mapLockCost})`;
     ui.lockMapBtn.removeAttribute("title");
